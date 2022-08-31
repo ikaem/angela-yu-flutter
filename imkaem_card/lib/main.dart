@@ -15,19 +15,87 @@ class MyApp extends StatelessWidget {
       home: Scaffold(
         backgroundColor: Colors.blueGrey.shade900,
         body: SafeArea(
-          child: Container(
-            height: 100,
-            width: 100,
-            // margin: EdgeInsets.all(20),
-            // margin: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
-            // margin: EdgeInsets.fromLTRB(20, 100, 20, 11),
-            margin: EdgeInsets.only(left: 123),
-            padding: EdgeInsets.only(left: 90),
-            color: Colors.white,
-            child: Text(
-              "I am kaem",
-              style: TextStyle(color: Colors.red),
-            ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              CircleAvatar(
+                radius: 50,
+                backgroundImage: AssetImage("assets/images/me.jpg"),
+              ),
+              Text(
+                "Karlo Marinović",
+                style: TextStyle(
+                  fontSize: 32,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Montserrat",
+                ),
+              ),
+              Text(
+                "App Developer".toUpperCase(),
+                style: TextStyle(
+                  color: Colors.grey.shade600,
+                  fontFamily: "Roboto Mono",
+                  fontSize: 20,
+                  letterSpacing: 1.6,
+                ),
+              ),
+              SizedBox(
+                height: 20,
+                child: Padding(
+                  padding: const EdgeInsets.all(10.0),
+                  child: Divider(
+                    color: Colors.grey,
+                  ),
+                ),
+              ),
+              Card(
+                color: Colors.grey.shade400,
+                margin: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Icon(
+                        Icons.phone,
+                        size: 30,
+                        color: Colors.blueGrey.shade900,
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "+911111111",
+                        style: TextStyle(
+                          color: Colors.blueGrey.shade900,
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Card(
+                color: Colors.grey.shade400,
+                margin: EdgeInsets.symmetric(
+                  vertical: 10,
+                  horizontal: 10,
+                ),
+                child: ListTile(
+                  visualDensity: VisualDensity.compact,
+                  leading: Icon(
+                    Icons.email,
+                    color: Colors.blueGrey.shade900,
+                  ),
+                  dense: true,
+                  title: Center(child: Text("marinovic.karlo@gmail.com")),
+                ),
+              )
+            ],
           ),
         ),
       ),
