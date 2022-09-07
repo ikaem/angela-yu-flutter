@@ -1,6 +1,7 @@
 import 'package:bmi/navigation/routes.dart';
 import 'package:bmi/screens/home_screen.dart';
 import 'package:bmi/screens/results_screen.dart';
+import 'package:bmi/services/bmi.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -14,6 +15,6 @@ class AppRouter {
 
   static toHome(BuildContext context) =>
       Navigator.pushNamed(context, Routes.home);
-  static toResults(BuildContext context) =>
-      Navigator.pushNamed(context, Routes.results);
+  static toResults(BuildContext context, BMI bmi) =>
+      Navigator.pushNamed(context, Routes.results, arguments: bmi);
 }

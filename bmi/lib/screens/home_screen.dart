@@ -1,3 +1,5 @@
+import 'package:bmi/navigation/app_router.dart';
+import 'package:bmi/services/bmi.dart';
 import 'package:bmi/test.dart';
 import 'package:bmi/theme/color_scheme.dart';
 import 'package:bmi/widgets/custom_card.dart';
@@ -209,7 +211,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 ],
               ),
             ),
-            RecalculateBMIButton()
+            RecalculateBMIButton(
+              onTap: () {
+                print("Calculating...");
+                final bmi = BMI(height, weight);
+                // print("bmi here: $bmi");
+                AppRouter.toResults(context, bmi);
+              },
+            )
           ],
         ),
       ),

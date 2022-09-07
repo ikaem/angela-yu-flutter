@@ -1,4 +1,5 @@
 import 'package:bmi/navigation/app_router.dart';
+import 'package:bmi/services/bmi.dart';
 import 'package:bmi/widgets/custom_card.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,14 @@ class ResultsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BMI args = ModalRoute.of(context)!.settings.arguments as BMI;
+
+    // print("args: ${args.calculateBMI()}");
+    // print("args: ${args.getInterpretation()}");
+    // print("args: ${args.getResult()}");
+
+    // print("args: $args");
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("BMI - ResultsScreen"),
@@ -37,7 +46,7 @@ class ResultsScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Overweight".toUpperCase(),
+                      args.getResult().toUpperCase(),
                       style: TextStyle(
                         color: Colors.red,
                         fontSize: 22,
@@ -45,11 +54,11 @@ class ResultsScreen extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "33",
+                      args.calculateBMI(),
                       style: Theme.of(context).textTheme.displayLarge,
                     ),
                     Text(
-                      "Your BMI result is quite high. Chill...",
+                      args.getInterpretation(),
                       // style: Theme.of(context).textTheme.displayLarge,
                     ),
                   ],
