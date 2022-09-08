@@ -1,13 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:weather/screens/city_screen.dart';
+import 'package:weather/services/weather.dart';
 
 class LocationScreen extends StatefulWidget {
-  const LocationScreen({Key? key}) : super(key: key);
+  final dynamic locationWeather;
+
+  const LocationScreen({Key? key, required this.locationWeather})
+      : super(key: key);
 
   @override
   State<LocationScreen> createState() => _LocationScreenState();
 }
 
 class _LocationScreenState extends State<LocationScreen> {
+  int? temperature;
+  int? condition;
+  String? cityName;
+  bool isRefetchingWeather = false;
+
+  final weather = WeatherModel();
+
+  void updateUI(dynamic weatherData) {
+    //TODO test
+    // weatherData = null;
+    if (weatherData == null) {
+      setState(() {
+        temperature = 0;
+        condition = -1;
+        cityName = "";
+      });
+
+      return;
+    }
+    setState(() {
+      temperature = weatherData["main"]["temp"].toInt();
+      condition = weatherData["weather"][0]["id"];
+      cityName = weatherData["name"];
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    updateUI(widget.locationWeather);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,16 +68,44 @@ class _LocationScreenState extends State<LocationScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: <Widget>[
+                  isRefetchingWeather
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: const CircularProgressIndicator(),
+                        )
+                      : IconButton(
+                          onPressed: () async {
+                            setState(() {
+                              isRefetchingWeather = true;
+                            });
+                            final weatherData =
+                                await weather.getLocationWeather();
+                            updateUI(weatherData);
+                            setState(() {
+                              isRefetchingWeather = false;
+                            });
+                          },
+                          icon: const Icon(
+                            Icons.near_me,
+                            size: 50.0,
+                          ),
+                        ),
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.near_me,
-                      size: 50.0,
-                    ),
-                  ),
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(
+                    onPressed: () async {
+                      final city = await Navigator.push<String>(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => CityScreen(),
+                        ),
+                      );
+
+                      if (city == null) return;
+
+                      final weatherData = await weather.getCityWeather(city);
+
+                      updateUI(weatherData);
+                    },
+                    icon: const Icon(
                       Icons.location_city,
                       size: 50.0,
                     ),
@@ -48,15 +113,15 @@ class _LocationScreenState extends State<LocationScreen> {
                 ],
               ),
               Padding(
-                padding: EdgeInsets.only(left: 15.0),
+                padding: const EdgeInsets.only(left: 15.0),
                 child: Row(
                   children: <Widget>[
                     Text(
-                      '32°',
+                      '${temperature}°',
                       // style: kTempTextStyle,
                     ),
                     Text(
-                      '☀️',
+                      '${weather.getWeatherIcon(condition)}',
                       // style: kConditionTextStyle,
                     ),
                   ],
@@ -65,7 +130,7 @@ class _LocationScreenState extends State<LocationScreen> {
               Padding(
                 padding: EdgeInsets.only(right: 15.0),
                 child: Text(
-                  "It's 🍦 time in San Francisco!",
+                  "It's ${weather.getMessage(temperature)} time in $cityName!",
                   textAlign: TextAlign.right,
                   // style: kMessageTextStyle,
                 ),
