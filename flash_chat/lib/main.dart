@@ -13,6 +13,8 @@ void main() async {
 }
 
 class FlashChat extends StatefulWidget {
+  const FlashChat({Key? key}) : super(key: key);
+
   @override
   State<FlashChat> createState() => _FlashChatState();
 }
