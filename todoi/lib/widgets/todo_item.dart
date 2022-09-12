@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:todoi/models/todo.dart';
-import 'package:todoi/widgets/todo_list.dart';
+import 'package:todoi/screens/tasks_screen.dart';
 
 class TodoItem extends StatelessWidget {
   final Todo todo;
@@ -8,8 +8,10 @@ class TodoItem extends StatelessWidget {
 
   Future<void> onChanged(bool? checked) async {
     //
-    final updatedTodo = todo..isCompleted = !todo.isCompleted;
-    await onTodoChecked(updatedTodo);
+    // final updatedTodo = todo..isCompleted = !todo.isCompleted;
+    // todo.toggleIsCompleted();
+    // await onTodoChecked(updatedTodo);
+    await onTodoChecked(todo);
   }
 
   const TodoItem({

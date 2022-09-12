@@ -6,6 +6,10 @@ class Todo {
   Todo({
     required this.id,
     required this.name,
-    required this.isCompleted,
+    this.isCompleted = false,
   });
+
+  void toggleIsCompleted() {
+    isCompleted = !isCompleted;
+  }
 }

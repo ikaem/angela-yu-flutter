@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoi/models/todo.dart';
 import 'package:todoi/screens/add_task_screen.dart';
 import 'package:todoi/widgets/burger_menu.dart';
@@ -10,6 +11,8 @@ final List<Todo> initialTodos = [
   Todo(id: "id3", name: "name3", isCompleted: true),
 ];
 
+typedef OnTodoChecked = Future<void> Function(Todo todo);
+
 class TasksScreen extends StatefulWidget {
   const TasksScreen({Key? key}) : super(key: key);
 
@@ -20,19 +23,33 @@ class TasksScreen extends StatefulWidget {
 class _TasksScreenState extends State<TasksScreen> {
   List<Todo> mockTodos = initialTodos;
 
+  Future<void> addTodo(Todo todo) async {
+    print("todo: $todo");
+    setState(() {
+      mockTodos.add(todo);
+    });
+  }
+
   Future<void> handleCheckTodo(Todo todo) async {
     try {
       //  takes id of the todo
-      final updatedTodos = mockTodos.map<Todo>((t) {
-        final isUpdatedTodo = t.id == todo.id;
+      // final updatedTodos = mockTodos.map<Todo>((t) {
+      //   final isUpdatedTodo = t.id == todo.id;
+      //
+      //   if (isUpdatedTodo) return todo;
+      //   return t;
+      // }).toList();
+      //
+      // setState(() {
+      //   mockTodos = updatedTodos;
+      // });
 
-        if (isUpdatedTodo) return todo;
-        return t;
-      }).toList();
-
+      //TODO this is enough - no need to repalce the whole list
       setState(() {
-        mockTodos = updatedTodos;
+        todo.toggleIsCompleted();
       });
+
+      print(mockTodos.map((t) => t.isCompleted.toString()));
     } catch (e) {
       print("e");
     }
@@ -56,7 +73,7 @@ class _TasksScreenState extends State<TasksScreen> {
                 bottomLeft: Radius.zero,
               ),
             ),
-            child: AddTaskScreen(),
+            child: AddTaskScreen(addTodo: addTodo),
           );
         });
   }
@@ -80,9 +97,10 @@ class _TasksScreenState extends State<TasksScreen> {
                 height: 10,
               ),
               Text(
-                "12 tasks",
+                "${mockTodos.length} tasks",
                 style: TextStyle(color: Colors.white, fontSize: 18.0),
               ),
+              Text(Provider.of<String>(context)),
               SizedBox(
                 height: 48,
               ),
