@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todoi/models/todo.dart';
+import 'package:todoi/models/todo_data.dart';
 
 typedef AddTodo = Future<void> Function(Todo);
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({
     Key? key,
-    required this.addTodo,
+    // required this.addTodo,
   }) : super(key: key);
 
-  final AddTodo addTodo;
+  // final AddTodo addTodo;
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -28,7 +30,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       final todo = Todo(
           id: DateTime.now().millisecondsSinceEpoch.toString(), name: text);
 
-      await widget.addTodo(todo);
+      // await widget.addTodo(todo);
+      Provider.of<TodoData>(context, listen: false).addTodo(todo);
       _todoNameController.clear();
       navigator.pop();
       //  close bottom sheert
@@ -87,6 +90,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               style: TextStyle(color: Colors.white),
             ),
           ),
+          SizedBox(
+            height: 20.0,
+          ),
+          // TextButton(
+          //   onPressed: () {
+          //     final text = _todoNameController.text;
+          //     if (text.isEmpty) return;
+          //     Provider.of<Datar>(context, listen: false)
+          //         .changeDataVariable(text);
+          //   },
+          //   child: Text("Change Provider text variable"),
+          // ),
         ],
       ),
     );

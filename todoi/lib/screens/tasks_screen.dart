@@ -1,17 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:todoi/models/todo.dart';
+import 'package:todoi/models/todo_data.dart';
 import 'package:todoi/screens/add_task_screen.dart';
 import 'package:todoi/widgets/burger_menu.dart';
 import 'package:todoi/widgets/todo_list.dart';
-
-final List<Todo> initialTodos = [
-  Todo(id: "id1", name: "name1", isCompleted: false),
-  Todo(id: "id2", name: "name2", isCompleted: false),
-  Todo(id: "id3", name: "name3", isCompleted: true),
-];
-
-typedef OnTodoChecked = Future<void> Function(Todo todo);
 
 class TasksScreen extends StatefulWidget {
   const TasksScreen({Key? key}) : super(key: key);
@@ -21,39 +13,37 @@ class TasksScreen extends StatefulWidget {
 }
 
 class _TasksScreenState extends State<TasksScreen> {
-  List<Todo> mockTodos = initialTodos;
+  // List<Todo> mockTodos = initialTodos;
 
-  Future<void> addTodo(Todo todo) async {
-    print("todo: $todo");
-    setState(() {
-      mockTodos.add(todo);
-    });
-  }
-
-  Future<void> handleCheckTodo(Todo todo) async {
-    try {
-      //  takes id of the todo
-      // final updatedTodos = mockTodos.map<Todo>((t) {
-      //   final isUpdatedTodo = t.id == todo.id;
-      //
-      //   if (isUpdatedTodo) return todo;
-      //   return t;
-      // }).toList();
-      //
-      // setState(() {
-      //   mockTodos = updatedTodos;
-      // });
-
-      //TODO this is enough - no need to repalce the whole list
-      setState(() {
-        todo.toggleIsCompleted();
-      });
-
-      print(mockTodos.map((t) => t.isCompleted.toString()));
-    } catch (e) {
-      print("e");
-    }
-  }
+  // Future<void> addTodo(Todo todo) async {
+  //   // print("todo: $todo");
+  //   // setState(() {
+  //   //   mockTodos.add(todo);
+  //   // });
+  // }
+  //
+  // Future<void> handleCheckTodo(Todo todo) async {
+  //   try {
+  //     //  takes id of the todo
+  //     // final updatedTodos = mockTodos.map<Todo>((t) {
+  //     //   final isUpdatedTodo = t.id == todo.id;
+  //     //
+  //     //   if (isUpdatedTodo) return todo;
+  //     //   return t;
+  //     // }).toList();
+  //     //
+  //     // setState(() {
+  //     //   mockTodos = updatedTodos;
+  //     // });
+  //
+  //     //TODO this is enough - no need to repalce the whole list
+  //     // setState(() {
+  //     //   todo.toggleIsCompleted();
+  //     // });
+  //   } catch (e) {
+  //     print("e");
+  //   }
+  // }
 
   Future<void> handleShowNewTodoModal() async {
     showModalBottomSheet(
@@ -73,7 +63,8 @@ class _TasksScreenState extends State<TasksScreen> {
                 bottomLeft: Radius.zero,
               ),
             ),
-            child: AddTaskScreen(addTodo: addTodo),
+            // child: AddTaskScreen(addTodo: addTodo),
+            child: AddTaskScreen(),
           );
         });
   }
@@ -97,10 +88,12 @@ class _TasksScreenState extends State<TasksScreen> {
                 height: 10,
               ),
               Text(
-                "${mockTodos.length} tasks",
+                "${Provider.of<TodoData>(context).todosCount} tasks",
                 style: TextStyle(color: Colors.white, fontSize: 18.0),
               ),
-              Text(Provider.of<String>(context)),
+              // Text(
+              //   Provider.of<Datar>(context).data,
+              // ),
               SizedBox(
                 height: 48,
               ),
@@ -117,9 +110,9 @@ class _TasksScreenState extends State<TasksScreen> {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 10.0, vertical: 30.0),
                     child: TodoList(
-                      todos: mockTodos,
-                      onTodoChecked: handleCheckTodo,
-                    ),
+                        // todos: Provider.of<TodoData>(context).todos,
+                        // onTodoChecked: handleCheckTodo,
+                        ),
                   ),
                 ),
               )
